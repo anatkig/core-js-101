@@ -244,8 +244,29 @@ function findFirstSingleChar(str) {
  *   5, 3, true, true   => '[3, 5]'
  *
  */
-function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
-  throw new Error('Not implemented');
+function getIntervalString(a, b, isStartIncluded, isEndIncluded) {
+  let arr = [];
+  if (a < b) {
+    arr.push(a);
+    arr.push(b);
+  } else {
+    arr.push(b);
+    arr.push(a);
+  }
+  const str = arr.join(', ');
+  arr = [];
+  arr.push(str);
+  if (isStartIncluded) {
+    arr.unshift('[');
+  } else {
+    arr.unshift('(');
+  }
+  if (isEndIncluded) {
+    arr.push(']');
+  } else {
+    arr.push(')');
+  }
+  return arr.join('');
 }
 
 
@@ -261,8 +282,8 @@ function getIntervalString(/* a, b, isStartIncluded, isEndIncluded */) {
  * 'rotator' => 'rotator'
  * 'noon' => 'noon'
  */
-function reverseString(/* str */) {
-  throw new Error('Not implemented');
+function reverseString(str) {
+  return str.split('').reverse().join('');
 }
 
 
@@ -278,8 +299,8 @@ function reverseString(/* str */) {
  *   87354 => 45378
  *   34143 => 34143
  */
-function reverseInteger(/* num */) {
-  throw new Error('Not implemented');
+function reverseInteger(num) {
+  return parseInt(num.toString().split('').reverse().join(''), 10);
 }
 
 
@@ -303,8 +324,29 @@ function reverseInteger(/* num */) {
  *   5436468789016589 => false
  *   4916123456789012 => false
  */
-function isCreditCardNumber(/* ccn */) {
-  throw new Error('Not implemented');
+function isCreditCardNumber(ccn) {
+  let sum = 0;
+  const checkSum = parseInt(ccn.toString()[ccn.toString().length - 1], 10);
+  const arr = ccn.toString().split('').map((a) => parseInt(a, 10)).reverse();
+  for (let i = 1; i < arr.length; i += 1) {
+    if (i % 2 !== 0) {
+      const temp = arr[i] * 2;
+      if (temp > 9) {
+        const arrTemp = temp.toString().split('');
+        const numTemp = parseInt(arrTemp[0], 10) + parseInt(arrTemp[1], 10);
+        sum += numTemp;
+      } else {
+        sum += temp;
+      }
+    } else {
+      sum += arr[i];
+    }
+  }
+  const finSum = (sum * 9) % 10;
+  if (checkSum === finSum) {
+    return true;
+  }
+  return false;
 }
 
 /**
