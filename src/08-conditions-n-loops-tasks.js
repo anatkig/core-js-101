@@ -363,8 +363,16 @@ function isCreditCardNumber(ccn) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  let ret = 0;
+  const numSum = num.toString().split('').reduce((sum, a) => {
+    ret += parseInt(a, 10);
+    return ret;
+  }, 0);
+  if (numSum > 9) {
+    return getDigitalRoot(numSum);
+  }
+  return numSum;
 }
 
 
@@ -389,8 +397,56 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const arr = str.split('');
+  if (arr[0] === ')') {
+    return false;
+  }
+  if (arr[0] === ']') {
+    return false;
+  }
+  if (arr[0] === '}') {
+    return false;
+  }
+  if (arr[0] === '>') {
+    return false;
+  }
+  for (let i = 0; i < arr.length; i += 1) {
+    if (arr[i] === '(' && arr[i + 1] === ')') {
+      arr.splice(i, 2);
+    } else if (arr[i] === '[' && arr[i + 1] === ']') {
+      arr.splice(i, 2);
+    } else if (arr[i] === '{' && arr[i + 1] === '}') {
+      arr.splice(i, 2);
+    } else if (arr[i] === '<' && arr[i + 1] === '>') {
+      arr.splice(i, 2);
+    }
+  }
+  if (arr.length === 2 && arr[0] === '(' && arr[1] !== ')') {
+    return false;
+  }
+  if (arr.length === 2 && arr[0] === '[' && arr[1] !== ']') {
+    return false;
+  }
+  if (arr.length === 2 && arr[0] === '{' && arr[1] !== '}') {
+    return false;
+  }
+  if (arr.length === 2 && arr[0] === '<' && arr[1] !== '>') {
+    return false;
+  }
+  if (arr.length === str.length && str.length !== 0) {
+    return false;
+  }
+  if (arr.length === 0) {
+    return true;
+  }
+  if (arr.length === 1) {
+    return false;
+  }
+  if (arr.length > 1) {
+    return isBracketsBalanced(arr.join(''));
+  }
+  return false;
 }
 
 
@@ -414,8 +470,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return (num).toString(n);
 }
 
 
